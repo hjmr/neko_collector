@@ -1,6 +1,7 @@
 version: "3"
 services:
-  selenium:
+  neko_scraper:
+    platform: linux/amd64
     image: selenium/standalone-chrome-debug
     ports:
       - 4444:4444

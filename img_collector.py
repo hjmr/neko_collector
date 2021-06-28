@@ -34,9 +34,13 @@ def download_file_to_dir(url, dst_dir):
     download_file(url, os.path.join(dst_dir, os.path.basename(url)))
 
 
-def extract_image_urls(driver, url, page):
+def extract_image_urls(url, page):
     img_urls = []
     page_url = url + "/?page={}".format(page)
+
+    driver = webdriver.Remote(
+        command_executor="http://localhost:4444/wd/hub",
+        desired_capabilities=DesiredCapabilities.CHROME)
 
     try:
         driver.get(page_url)
@@ -49,7 +53,7 @@ def extract_image_urls(driver, url, page):
         for item in img_list:
             img_urls.append(item["src"].split("?")[0])
     finally:
-        driver.close()
+        driver.quit()
     return img_urls
 
 
@@ -63,18 +67,13 @@ def retrieve_images(url_list, save_to):
 
 
 def main(query, save_to):
-    try:
-        driver = webdriver.Remote(
-            command_executor="http://localhost:4444/wd/hub",
-            desired_capabilities=DesiredCapabilities.CHROME)
-        url = QUERY_URL.format(query)
-        page = 1
-        img_urls = extract_image_urls(driver, url, page)
-        while 0 < len(img_urls):
-            retrieve_images(img_urls, save_to)
-            img_urls = extract_image_urls(driver, url, page)
-    finally:
-        driver.quit()
+    url = QUERY_URL.format(query)
+    page = 1
+    img_urls = extract_image_urls(url, page)
+    while 0 < len(img_urls):
+        retrieve_images(img_urls, save_to)
+        page += 1
+        img_urls = extract_image_urls(url, page)
 
 
 if __name__ == "__main__":

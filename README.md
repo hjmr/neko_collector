@@ -1,6 +1,6 @@
-# Docker + Seleniumのテスト
+# Docker + Seleniumで猫画像を取ってくる
 
-Docker と Selenium を使って少し手軽にスクレイピングするサンプル。
+Docker と Selenium を使ってスクレイピングするサンプル。
 
 ## 1. 準備
 

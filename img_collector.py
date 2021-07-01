@@ -18,7 +18,8 @@ QUERY_URL = BASE_URL + "/foster/cat/kw-{}"
 def parse_arg():
     parser = argparse.ArgumentParser(description="search and retrieve cats' images.")
     parser.add_argument("-t", "--save_to", type=str, help="specify a folder to where images will be saved.")
-    parser.add_argument("QUERY", type=str, help="query keyword.")
+    parser.add_argument("-n", "--image_num", type=int, default=10, help="specify the number of images to retrieve.")
+    parser.add_argument("QUERY", type=str, nargs="+", help="query keyword.")
     return parser.parse_args()
 
 
@@ -66,16 +67,21 @@ def retrieve_images(url_list, save_to):
             time.sleep(random.uniform(1, 3))  # 1〜3秒待つ
 
 
-def main(query, save_to):
-    url = QUERY_URL.format(query)
+def main(queries, image_num, save_to):
+    url = QUERY_URL.format("%20".join(queries))
+    count = 0
     page = 1
-    img_urls = extract_image_urls(url, page)
-    while 0 < len(img_urls):
-        retrieve_images(img_urls, save_to)
-        page += 1
+    while count < image_num:
         img_urls = extract_image_urls(url, page)
+        if len(img_urls) == 0:
+            break
+        if image_num < count + len(img_urls):
+            img_urls = img_urls[:image_num - count]
+        retrieve_images(img_urls, save_to)
+        count += len(img_urls)
+        page += 1
 
 
 if __name__ == "__main__":
     args = parse_arg()
-    main(query=args.QUERY, save_to=args.save_to)
+    main(queries=args.QUERY, image_num=args.image_num, save_to=args.save_to)

@@ -50,10 +50,11 @@ $ poetry run python img_collector.py 猟奇的
 
 ### 4.2 画像を保存
 
-`-t <保存場所>` のオプションをつける。
+- `-t <保存場所>` のオプションをつける。
+- `-n <数>` で取ってくる画像の枚数を指定できる。
 
 ``` shell
-$ poetry run python img_collector.py -t imgs/ryokiteki 猟奇的
+$ poetry run python img_collector.py -t imgs/ryokiteki -n 3 猟奇的 暴力的
 ```
 
 ## 5. 実行が終わったら Selenium を終了

@@ -19,6 +19,7 @@ def parse_arg():
     parser = argparse.ArgumentParser(description="search and retrieve cats' images.")
     parser.add_argument("-t", "--save_to", type=str, help="specify a folder to where images will be saved.")
     parser.add_argument("-n", "--image_num", type=int, default=10, help="specify the number of images to retrieve.")
+    parser.add_argument("-s", "--skip_num", type=int, default=0, help="specify the number of images to skip before retrieving.")
     parser.add_argument("QUERY", type=str, nargs="+", help="query keyword.")
     return parser.parse_args()
 
@@ -67,21 +68,31 @@ def retrieve_images(url_list, save_to):
             time.sleep(random.uniform(1, 3))  # 1〜3秒待つ
 
 
-def main(queries, image_num, save_to):
+def trim_list(a_list, curr_num, keep_num, skip_num):
+    list_size = len(a_list)
+    left_pos = 0
+    right_pos = list_size
+    if curr_num <= skip_num and skip_num < curr_num + list_size:
+        left_pos = skip_num - curr_num
+    if curr_num <= skip_num + keep_num and skip_num + keep_num < curr_num + list_size:
+        right_pos = skip_num + keep_num - curr_num
+    return a_list[left_pos:right_pos]
+
+
+def main(queries, image_num, save_to, skip_num = 0):
     url = QUERY_URL.format("%20".join(queries))
     count = 0
     page = 1
-    while count < image_num:
+
+    while count < skip_num + image_num:
         img_urls = extract_image_urls(url, page)
-        if len(img_urls) == 0:
-            break
-        if image_num < count + len(img_urls):
-            img_urls = img_urls[:image_num - count]
-        retrieve_images(img_urls, save_to)
+        trimmed_img_urls = trim_list(img_urls, count, image_num, skip_num)
+        retrieve_images(trimmed_img_urls, save_to)
         count += len(img_urls)
         page += 1
 
 
 if __name__ == "__main__":
     args = parse_arg()
-    main(queries=args.QUERY, image_num=args.image_num, save_to=args.save_to)
+    main(queries=args.QUERY, image_num=args.image_num, save_to=args.save_to, skip_num=args.skip_num)
+

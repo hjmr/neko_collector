@@ -6,10 +6,10 @@ Docker と Selenium を使ってスクレイピングするサンプル。
 
 必要なライブラリをインストール
 
-### Poetryを使っている場合
+### PDMを使っている場合
 
 ``` shell
-$ poetry install
+$ pdm install
 ```
 
 ### Pipを使う場合
@@ -44,8 +44,10 @@ $ docker compose up -d
 
 ### 4.1 検索のみ（保存しない）
 
+PDMを利用していない場合は最初の「pdm run」は不要です。（以下も同じ）
+
 ``` shell
-$ poetry run python img_collector.py 猟奇的
+$ pdm run python img_collector.py 猟奇的
 ```
 
 ### 4.2 画像を保存
@@ -55,7 +57,7 @@ $ poetry run python img_collector.py 猟奇的
 - `-s <数>` でスキップする画像の枚数を指定できる。
 
 ``` shell
-$ poetry run python img_collector.py -t imgs/ryokiteki -n 3 猟奇的 暴力的
+$ pdm run python img_collector.py -t imgs/ryokiteki -n 3 猟奇的 暴力的
 ```
 
 ## 5. 実行が終わったら Selenium を終了

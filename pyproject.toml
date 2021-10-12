@@ -1,32 +1,19 @@
-[project]
-name = "neko_atsume"
+[tool.poetry]
+name = "neko-atsume"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "hjmr", email = "2620990+hjmr@users.noreply.github.com"},
-]
-dependencies = [
-    "requests~=2.26",
-    "bs4~=0.0",
-    "selenium~=3.141",
-]
-requires-python = ">=3.9"
-dynamic = ["classifiers"]
-license = {text = "MIT"}
+authors = ["hjmr <2620990+hjmr@users.noreply.github.com>"]
 
-[project.urls]
-homepage = ""
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.26.0"
+bs4 = "^0.0.1"
+selenium = "^3.141.0"
 
+[tool.poetry.dev-dependencies]
+pylint = "^2.11.1"
+black = "^21.9b0"
 
-[project.optional-dependencies]
 [build-system]
-requires = ["pdm-pep517"]
-build-backend = "pdm.pep517.api"
-
-[tool]
-[tool.pdm]
-[tool.pdm.dev-dependencies]
-dev = [
-    "black~=21.8b0",
-    "pylint~=2.10",
-]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

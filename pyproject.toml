@@ -5,14 +5,12 @@ description = ""
 authors = ["hjmr <2620990+hjmr@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-requests = "^2.26.0"
-bs4 = "^0.0.1"
-selenium = "^3.141.0"
+python = "^3.11"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.3"
+selenium = "^4.19.0"
 
 [tool.poetry.dev-dependencies]
-pylint = "^2.11.1"
-black = "^21.9b0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
